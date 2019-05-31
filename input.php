@@ -2,14 +2,15 @@
 
 $filename='data.json';
 if(is_writable($filename)){
-	$fp = fopen("$filename",'w');
-	$array = array(
-			'users'=>array(
+	$fp = fopen("$filename",'a');
+	$array = array_push(
+			$array->users,array(
 				array('name'=>$_GET['username']),
 				)
 		      );
 	$json=json_encode($array);
 	fwrite($fp,$json);
+	fclose($fp);
 
 }else{
 	echo "書き込みできません\n";
@@ -17,7 +18,7 @@ if(is_writable($filename)){
 
 
 if(is_readable($filename)){
-	$handle=fopen($filename,"r");
+	$handle=fopen($filename,'r');
 	$contents=fread($handle,filesize($filename));
 	$object = json_decode($contents);
 	fclose($handle);
