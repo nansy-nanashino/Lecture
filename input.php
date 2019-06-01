@@ -14,10 +14,10 @@ if(is_readable($filename)){
 		$fp = fopen($filename,'w');
 		//var_dump($array); 
 		array_push(
-				$array,array('name'=>$_GET['username'])
+				$array,(object)array('name'=>$_GET['username'])
 			  );
-
-		var_dump($array);
+		//echo $array;
+		//var_dump($array);
 		$json=json_encode($array);
 		fwrite($fp,$json);
 		fclose($fp);
@@ -31,7 +31,7 @@ if(is_readable($filename)){
 }
 
 
-
+error_log(print_r($array, true));
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +43,7 @@ if(is_readable($filename)){
 <body>
 <form action="" method="get">
 <input name="username" type="textbox">
-<button>送信</button>
+<button>送信?</button>
 </form>
 <h1>
 <ul>
