@@ -2,12 +2,12 @@
 
 $filename='data.json';
 if(is_writable($filename)){
-	$fp = fopen("$filename",'a');
-	$array = array_push(
-			$array->users,array(
-				array('name'=>$_GET['username']),
-				)
-		      );
+	$fp = fopen($filename,'a');
+	$array=array();	
+		array_push(
+				$array,array('name'=>$_GET['username'])
+			  );
+
 	$json=json_encode($array);
 	fwrite($fp,$json);
 	fclose($fp);
@@ -45,9 +45,9 @@ if(is_readable($filename)){
 <?php foreach ($object->users as $user) {  ?>
 	<li><?php echo $user->name ?></li>
 		<?php } ?>
-</ul>
-</h1>
-</body>
-<html> 
+		</ul>
+		</h1>
+		</body>
+		<html> 
 
 
