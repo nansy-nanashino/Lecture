@@ -14,7 +14,7 @@ if(is_readable($filename)){
 		$fp = fopen($filename,'w');
 		//var_dump($array); 
 		array_push(
-				$array,(object)array('name'=>$_GET['username']=>(object)array(
+				$array,(object)array(
 					'name'=>$_GET['username'],
 					'birthday'=>$_GET['birthday'],
 					'email'=>$_GET['email']
@@ -52,14 +52,12 @@ error_log(print_r($array, true));
 <button>送信?</button>
 </form>
 <h1>
-<form action="" method="get">
 <ul>
 <?php foreach ($array as $user) {  ?>
 <li><?php echo $user->name?><br>
     <?php echo $user->birthday?><br>
     <?php echo $user->email ?></li>
     <?php } ?>
-</form>
 </ul>
 </h1>
 </body>
