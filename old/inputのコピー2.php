@@ -14,7 +14,7 @@ if(is_readable($filename)){
 		$fp = fopen($filename,'w');
 		//var_dump($array); 
 		array_push(
-				$array,(object)array($_GET['username']=>(object)array(
+				$array,(object)array('name'=>$_GET['username']=>(object)array(
 					'name'=>$_GET['username'],
 					'birthday'=>$_GET['birthday'],
 					'email'=>$_GET['email']
