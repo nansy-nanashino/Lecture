@@ -1,6 +1,28 @@
-<?PHP
-
+<?php
 $filename='data.json';
+function write(){
+	if(is_writable($filename)){
+
+		$fp = fopen($filename,'w');
+		//var_dump($array);
+		$array=array();
+		array_push(
+				$array,(object)array(
+					'name'=>$_get['username'],
+					'birthday'=>$_get['birthday'],
+					'email'=>$_get['email']
+					)
+
+			  );
+		//echo $array;
+		//var_dump($array);
+		$json=json_encode($array);
+		fwrite($fp,$json);
+		fclose($fp);
+	}else{
+		echo "書き込みできません\n";
+	}
+}
 
 if(is_readable($filename)){
 	$handle=fopen($filename,'r');
@@ -10,35 +32,36 @@ if(is_readable($filename)){
 	//var_dump($object->users[0]->name);
 	//var_dump($array);
 
-	if(is_writable($filename)){
-		$fp = fopen($filename,'w');
-		//var_dump($array); 
-		array_push(
-				$array,(object)array($_GET['username']=>(object)array(
-					'name'=>$_GET['username'],
-					'birthday'=>$_GET['birthday'],
-					'email'=>$_GET['email']
-					)
-			  );
-		//echo $array;
-		//var_dump($array);
-		$json=json_encode($array);
-		fwrite($fp,$json);
-		fclose($fp);
+	if(isset($_get["sub"])){
+		$btn=$_get["sub"];
+		switch($btn){
+			case "registration":write();
+					    break;
+			case "date":if(is_writable($filename)){
 
-	}else{
-		echo "書き込みできません\n";
-	};
-
+					    $fp = fopen($filename,'w');
+					    //var_dump($array);
+					    $array=array();
+					    //echo $arra;
+					    //var_dump($array);
+					    $json=json_encode($array);
+					    fwrite($fp,$json);
+					    fclose($fp);
+				    }else{
+					    echo "書き込みできません\n";
+				    };
+		
+		break;
+	}
+}
 }else{
 	echo "ファイルがありません\n";
 }
 
-
 error_log(print_r($array, true));
 ?>
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
 <meta charset="utf-8">
@@ -49,19 +72,23 @@ error_log(print_r($array, true));
 <input name="username" type="textbox"><br>
 <input name="birthday" type="textbox"><br>
 <input name="email" type="textbox"><br>
-<button>送信?</button>
+<button type="submit" name="sub" value="registration">送信</button>
+<button type="submit" name="sub" value="delete">全て削除</button>
 </form>
 <h1>
 <form action="" method="get">
 <ul>
-<?php foreach ($array as $user) {  ?>
-<li><?php echo $user->name?><br>
-    <?php echo $user->birthday?><br>
-    <?php echo $user->email ?></li>
-    <?php } ?>
-</form>
-</ul>
-</h1>
-</body>
-<html> 
+<?php
+foreach ($array as $user) {  ?>
+	<li><?php echo $user->name?><br>
+		<?php echo $user->birthday?><br>
+		<?php echo $user->email ?></li>
+		<button type="submit" name="sub" value="delete">削除</button>
+		<?php } ?>
+
+		</form>
+		</ul>
+		</h1>
+		</body>
+		<html> 
 
