@@ -1,55 +1,80 @@
 <?PHP
 $filename='data.json';
+
 if(is_readable($filename)){
 	$handle=fopen($filename,'r');
 	$contents=fread($handle,filesize($filename));
 	$array = json_decode($contents);
 	fclose($handle);
-	//var_dump($object->users[0]->name);
-	//var_dump($array);
-
-	if(isset($_GET["sub"])){
+	
+	//ボタンの内容取得
+	if (isset($_GET["sub"])){
 		$btn=$_GET["sub"];
+		
 		switch($btn){
-			case "Registration":if(is_writable($filename)){
-						    $array=array();
-						    $fp = fopen($filename,'w');
-						    //var_dump($array); 
-						    array_push(
-								    $array,(object)array(
-									    'name'=>$_GET['username'],
-									    'birthday'=>$_GET['birthday'],
-									    'email'=>$_GET['email']
-									    )				
+			//更新処理
+			case "registration":
+				if(is_writable($filename)){
+					$fp = fopen($filename,'w');
+					//$array=array();
+					array_push(
+							$array,(object)array(
+								'name'=>$_GET['username'],
+								'birthday'=>$_GET['birthday'],
+								'email'=>$_GET['email']
+								)			
 
-							      );
-						    //echo $array;
-						    //var_dump($array);
-						    $json=json_encode($array);
-						    fwrite($fp,$json);
-						    fclose($fp);
-					    }else{
-						    echo "書き込みできません\n";
-					    };
-					    break;
+						  );
+					//echo $array;
+					//var_dump($array);
+					$json=json_encode($array);
+					fwrite($fp,$json);
+					fclose($fp);
+				}else{
+					echo "書き込みできません\n";
+				};
 
-			case  "delete": if(is_writable($filename)){
+				break;
+			//全削除処理
+			case "alldelete":
+				if(is_writable($filename)){
+					$fp = fopen($filename,'w');
+					$array=array();
 
-						$fp = fopen($filename,'w');
-						$array=array();
-						$json=json_encode($array);
-						fwrite($fp,$json);
-						fclose($fp);
-					}else{
-						echo "書き込みできません\n";
-					};
-					break;
+					//echo $array;
+					//var_dump($array);
+					$json=json_encode($array);
+					fwrite($fp,$json);
+					fclose($fp);
+				}else{
+					echo "書き込みできません\n";
+				};
+				break;
+			//単品削除処理
+			case "delete": 
+				if(is_writable($filename)){
+					$fp = fopen($filename,'w');
+					$num=(int)$_GET["id"];
+						
+					unset($array[$num]);
+					$array = array_values($array);
+
+					$json=json_encode($array);
+					fwrite($fp,$json);
+					fclose($fp);
+				}else{
+					echo "書き込みできません\n";
+
+				};
+				break;
 		}
-	}
+	}	
 }else{
 	echo "ファイルがありません\n";
-}
+};
 
+
+//エラーログ
 error_log(print_r($array, true));
 ?>
 
@@ -64,21 +89,28 @@ error_log(print_r($array, true));
 <input name="username" type="textbox"><br>
 <input name="birthday" type="textbox"><br>
 <input name="email" type="textbox"><br>
-<button type="submit" name="sub" value="Registration">送信</button>
+<button type="submit" name="sub" value="registration">送信</button>
+<button type="submit" name="sub" value="alldelete">全て削除</button>
 </form>
 <h1>
 <form action="" method="get">
 <ul>
-<?php
-foreach ($array as $user) {  ?>
-	<li><?php echo $user->name?><br>
-		<?php echo $user->birthday?><br>
-		<?php echo $user->email ?></li>
-		<button type="submit" name="sub" value="delete">削除</button>
-		<?php } ?>
-		</form>
-		</ul>
-		</h1>
-		</body>
-		<html> 
-
+<?php 
+$n=0;//id用の変数
+foreach ($array as $user) {  
+?>
+<li>
+<?php echo $user->name?>
+<br>
+<?php echo $user->birthday?>
+<br>
+<?php echo $user->email ?>
+<input type="hidden" name="id" value="<?php $n++;?>">
+<button type="submit" name="sub" value="delete">削除</button>
+</li>
+<?php } ?>
+</form>
+</ul>
+</h1>
+</body>
+</html> 
