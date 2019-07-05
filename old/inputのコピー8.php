@@ -55,7 +55,7 @@ if(is_readable($filename)){
 				if(is_writable($filename)){
 					$fp = fopen($filename,'w');
 					$num=(int)$_GET["id"];
-					
+						
 					unset($array[$num]);
 					$array = array_values($array);
 
@@ -105,12 +105,8 @@ foreach ($array as $user) {
 <?php echo $user->birthday?>
 <br>
 <?php echo $user->email ?>
-<input type="hidden" name="id" value="<?php echo$n++;?>">
+<input type="hidden" name="id" value="<?php $n++;?>">
 <button type="submit" name="sub" value="delete">削除</button>
-</form>
-<form action="update.php" method="get">
-<button type="submit" name="sub" value="update1">更新</button>
-</form>
 </li>
 <?php } ?>
 </form>
