@@ -98,27 +98,27 @@ error_log(print_r($array, true));
 $n=0;//id用の変数
 
 foreach ($array as $user) {  
-$n++;?>
-
-<?php echo $user->name?>
-<br>
-<?php echo $user->birthday?>
-<br>
-<?php echo $user->email ?>
-</form>
-<form>
-<input type="hidden" name="id" value="<?php echo$n;?>">
-<button type="submit" name="sub" value="delete">削除</button>
-</form>
-<form action="update.php" method="get">
-<input type="hidden" name="id" value="<?php echo$n;?>">
-<button type="submit" name="sub" value="update">更新</button>
-</form>
-</li>
-<?php } ?>
-</form>
-</ul>
-</h1>
-</body>
-</html> 
+	$n++;	?>
+		<li>
+		<?php echo $user->name?>
+		<br>
+		<?php echo $user->birthday?>
+		<br>
+		<?php echo $user->email ?>
+		</form>
+		<form>
+		<input type="hidden" name="id" value="<?php echo$n;?>">
+		<button type="submit" name="sub" value="delete">削除</button>
+		</form>
+		<form action="update.php" method="get">
+		<input type="hidden" name="id" value="<?php echo$n;?>">
+		<button type="submit" name="sub" value="update">更新</button>
+		</form>
+		</li>
+		<?php } ?>
+		</form>
+		</ul>
+		</h1>
+		</body>
+		</html> 
 
